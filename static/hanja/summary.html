@@ -1,0 +1,12 @@
+<div ng-controller="MainCtrl as main" ng-init="load_hanja()" class="container">
+    <div ng-repeat = "(index, val) in hanjas">
+        <div  ng-class="{row: (val.index) % 4 == 0}">
+            <div class="col-xs-3 char">
+       <div id="{{ val.index }}" class="字"> {{ val['字'] }} </div>
+        <div class="音"> 音: {{ val['音'] }} </div>
+        <div class="訓"> 訓: {{ val['訓'] }} </div>
+                </div>
+            </div>
+    </div>
+
+</div>

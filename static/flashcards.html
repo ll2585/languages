@@ -21,41 +21,43 @@
 <body ng-controller="MainCtrl as main" ng-keydown="key($event)">
 <div class = "container-fluid">
     <div class="row" ng-show="!studying">
-        <p>Hello {{name}}!</p>
-        <button ng-show="cards != null" ng-repeat="(key, value) in getRange()" ng-click="startSet(key)">START {{value}}</button>
+        <p>Hello!</p>
+        <button ng-show="cards != null" ng-repeat="(key, value) in getRange()" ng-click="startSet(key)">START {{value}}  [{{ (key*1+1) }}]</button>
         <input type="file" file-reader="fileContent" action="loadCSV" />
         Cards per set: <input type="text" ng-model="set_size" required>
         <button ng-show="cards != null" ng-click="startAll()">START ALL</button>
         <button ng-show="cards != null" ng-click="start()" ng-disabled="noCardsSelected()">START</button>
-        <button ng-show="cards != null" ng-click="shuffleCards()">Shuffle Cards</button>
+        <button ng-show="cards != null" ng-click="shuffleCards()">Shuffle Cards [s]</button>
         <div ng-repeat="card in cards track by $index">
             <input type="checkbox" ng-model="cardsSelected[$index]"> {{$index}} {{card}}
         </div>
 
     </div>
     <div class="row" ng-show="studying">
-        <div ng-show="onCardScreen" style="align-items: center;">
-        <div style="text-align:center;font-size:8em;">{{curSide}}</div>
-        Known? <input type="checkbox" ng-model="cardKnown[curCard]">
-            Set Checked for Individual Review? <input type="checkbox" ng-model="cardsSelected[getCardIndex(curCard)]">
+        <div ng-show="onCardScreen" style="align-items: center;text-align:center;">
+            Font size (in em): <input type="text" ng-model="fontSize" required>
+        <div  ng-style="{'font-size': fontSize + 'em'}">{{curSide}}</div>
+
+        Known? [SPACE] <input type="checkbox" ng-model="cardKnown[curCard]"> <br />
+            Set Checked for Individual Review? [c] <input type="checkbox" ng-model="cardsSelected[getCardIndex(curCard)]">
         <br>
-            <button ng-click="prevCard()" ng-disabled="curCard == 0">LAST CARD</button>
-            <button ng-click="nextCard()">{{nextCardButton}}</button>
+            <button ng-click="prevCard()" ng-disabled="curCard == 0">LAST CARD [←] </button>
+            <button ng-click="nextCard()">{{nextCardButton}} [→] </button>
         <br>
-            <button ng-click="flipCard()">FLIP CARD</button>
+            <button ng-click="flipCard()">FLIP CARD [↑/↓]</button>
         <br>
             <button ng-click="restartIncludingKnown()">RESTART THIS SET INCLUDING KNOWN</button>
             <button ng-click="restartThisSet()">RESTART THIS SET ONLY</button>
-            <button ng-click="end()">END</button>
+            <button ng-click="end()">END [ENTER]</button>
         <br>
             {{curCard+1}}/{{reviewingSet.length}}
         </div>
         <div ng-show="!onCardScreen">
             You knew {{knownCards}} out of {{reviewingSet.length}} cards!
             <input type="checkbox" ng-model="keepKnown" ng-click = "toggleKeep()"> Keep all known cards
-            <button ng-click="restartEndScreen()" ng-disabled="!keepKnown && knownCards == reviewingSet.length">{{restartEndString}}</button>
+            <button ng-click="restartEndScreen()" ng-disabled="!keepKnown && knownCards == reviewingSet.length">{{restartEndString}} [→]</button>
             <button ng-click="restartAll()">RESTART WITH ALL {{cards.length}} CARDS</button>
-            <button ng-click="end()">END</button>
+            <button ng-click="end()">END [ENTER]</button>
         </div>
     </div>
 </div>

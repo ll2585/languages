@@ -314,6 +314,8 @@ flashcardApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
         $scope.updateCard();
     };
 
+    $scope.fontSize = 8;
+
 
 
 

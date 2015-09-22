@@ -24,6 +24,10 @@ def get_flashcards():
 def get_audio():
 	return app.send_static_file('audio.html')
 
+@app.route('/hanja', methods=['GET'])
+def get_hanja():
+	return app.send_static_file('hanja.html')
+
 @app.route('/api/v1.0/korean/naver/def/eng/<string:word>', methods=['GET'])
 def get_definition_english(word):
 	root = get_definition(word)
