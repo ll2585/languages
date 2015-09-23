@@ -1,10 +1,17 @@
 from flask import Flask, jsonify, make_response, render_template, send_from_directory, url_for
 from urllib.request import urlopen
 import urllib
+import json
 from bs4 import BeautifulSoup
+from bson.objectid import ObjectId
 
 app = Flask(__name__, static_folder="static")
 
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
 
 @app.route('/api/v1.0/korean/naver/root/eng/<string:word>', methods=['GET'])
 def get_root_english(word):
@@ -25,8 +32,45 @@ def get_audio():
 	return app.send_static_file('audio.html')
 
 @app.route('/hanja', methods=['GET'])
+@app.route('/hanja/articles', methods=['GET'])
+@app.route('/hanja#/articles', methods=['GET'])
 def get_hanja():
 	return app.send_static_file('hanja.html')
+
+@app.route('/api/v1.0/korean/hanja/list/<string:list_name>', methods=['GET'])
+def get_hanja_list(list_name):
+	hanja_json_dict = {
+      '8':   'hanja_8.json',
+        '7':   'hanja_7.json',
+        '6-1': 'hanja_6-1.json',
+        '6-2': 'hanja_6-2.json',
+        '5-1': 'hanja_5-1.json',
+        '5-2': 'hanja_5-2.json',
+        '4-1': 'hanja_4-1.json',
+        '4-2': 'hanja_4-2.json',
+        '3-1': 'hanja_3-1.json',
+        '3-2': 'hanja_3-2.json',
+        '2-2': 'hanja_2-2.json',
+        '2-1': 'hanja_2-1.json',
+        '1': 'hanja_1.json'
+    }
+	import json, os
+	APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+	APP_STATIC = os.path.join(APP_ROOT, 'hanja')
+	filename = hanja_json_dict[list_name]
+	with open(os.path.join(APP_STATIC, filename)) as outfile:
+		data = json.load(outfile)
+	return jsonify({'result': data})
+
+@app.route('/api/v1.0/korean/hanja/article/<string:id>', methods=['GET'])
+def get_article_route(id):
+	from hanja.hanja_to_mongo import get_article
+	return JSONEncoder().encode(get_article(id))
+
+@app.route('/api/v1.0/korean/hanja/article/all/', methods=['GET'])
+def get_all_articles_route():
+	from hanja.hanja_to_mongo import get_all_articles
+	return JSONEncoder().encode(get_all_articles())
 
 @app.route('/api/v1.0/korean/naver/def/eng/<string:word>', methods=['GET'])
 def get_definition_english(word):

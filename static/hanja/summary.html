@@ -1,4 +1,7 @@
-<div ng-controller="MainCtrl as main" ng-init="load_hanja()" class="container">
+<div ng-controller="MainCtrl as main" ng-init="load_hanja('8')" class="container">
+    <div class="row">
+        <span ng-repeat = "(index, val) in hanja_json_dict" class="hanja-pages" ng-class="{'selected-page': cur_page==index, 'fake-link': cur_page != index}" ng-click="load_hanja(index)">{{ index }} </span>
+    </div>
     <div ng-repeat = "(index, val) in hanjas">
         <div  ng-class="{row: (val.index) % 4 == 0}">
             <div class="col-xs-3 char">

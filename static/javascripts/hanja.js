@@ -3,44 +3,53 @@ var hanjaApp = angular.module('hanjaApp', ['ngRoute']).config(function ($routePr
     .when('/', {
         templateUrl : 'static/hanja/summary.html',
         controller : 'MainCtrl'
+  }).when('/articles', {
+        templateUrl : 'static/hanja/article_main.html',
+        controller : 'ArticleCtrl'
   });
 });
 hanjaApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
     $scope.message = "HI!";
     $scope.hanjas = [];
+    $scope.cur_page = '';
 
 
-    $scope.load_hanja = function(){
+    $scope.load_hanja = function(level){
         var httpRequest = $http({
             method: 'GET',
-            url: '/static/json/hanja.json'
+            url: 'api/v1.0/korean/hanja/list/' + level
         }).success(function(data, status) {
-            $scope.hanjas = data;
+            $scope.cur_page = level;
+            $scope.hanjas = data['result'];
         });
     };
 }]);
 
 
-hanjaApp.directive('hanjas', function() {
-     return {
-        restrict: 'E',
-        replace: true,
-        template: '<table cellspacing="0" cellpadding="0">'
-        + '<colgroup span="7"></colgroup>'
-        + '<tbody>'
-        + '<tr class="days">'
-        + '</tr>'
-        + '<tr ng-repeat="week in hanja_row">'
-        + '<td ng-repeat="day in week">{{day}}</td>'
-        + '</tr></tbody></table>',
-        link: function(scope) {
-            scope.hanja_row = [];
-            for (var i = 0; i < scope.load_hanja.length; i++) {
-                if (i % 4 == 0) {
-                    scope.hanja_row.push([]);
-                }
-                scope.hanja_row[scope.hanja_row.length-1].push(scope.load_hanja[i]);
-            }
-        }
-    }
-});
+hanjaApp.controller('ArticleCtrl', ['$scope', '$http', function($scope, $http){
+    $scope.message = "HI!";
+    $scope.cur_page = '';
+    $scope.hanja_levels = ['8',
+  '7',
+  '6-1',
+  '6-2',
+  '5-1',
+  '5-2',
+  '4-1',
+  '4-2',
+  '3-1',
+  '3-2',
+  '2-2',
+  '2-1',
+  '1'
+];
+    $scope.load_articles = function(){
+        var httpRequest = $http({
+            method: 'GET',
+            url: '/api/v1.0/korean/hanja/article/all/'
+        }).success(function(data, status) {
+            console.log(data);
+            $scope.articles = data;
+        });
+    };
+}]);

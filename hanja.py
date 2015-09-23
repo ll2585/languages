@@ -22,11 +22,28 @@ def save_hanja_to_json(hanja_file, output_name):
 	with open(hanja_file, 'r', encoding="utf-8") as f:
 		hanjas = f.read().splitlines()
 	for hanja in hanjas:
-		this_hanja = load_hanja(hanja)
-		this_hanja['id'] = count
-		count += 1
-		data.append(this_hanja)
+		print("loading {0}".format(hanja))
+		try:
+			this_hanja = load_hanja(hanja)
+			this_hanja['id'] = count
+			count += 1
+			data.append(this_hanja)
+		except (AttributeError, urllib.error.HTTPError):
+			this_hanja = {'字': hanja, '訓': 'ERROR', '音': 'ERROR'}
+			this_hanja['id'] = count
+			count += 1
+			data.append(this_hanja)
 	with open(output_name, 'w') as outfile:
 		json.dump(data, outfile)
 
-save_hanja_to_json('hanja_8.txt', 'hanja_8.json')
+'''
+hanja_list = [
+              'hanja_3-2',
+              'hanja_2-1',
+              'hanja_2-2',
+              'hanja_1',
+              ]
+for h in hanja_list:
+	print('on file {0}'.format(h))
+	save_hanja_to_json('{0}.txt'.format(h), '{0}.json'.format(h))
+	'''

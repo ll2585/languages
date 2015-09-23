@@ -26,7 +26,7 @@ gulp.task('watch', ['browserSync', 'sass'], function(){
 
 gulp.task('browserSync', function() {
   browserSync({
-    proxy: "127.0.0.1:5000/hanja"
+    proxy: "127.0.0.1:5000/hanja#/articles"
   })
 });
 
