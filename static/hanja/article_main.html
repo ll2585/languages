@@ -1,11 +1,16 @@
 <div ng-controller="ArticleCtrl" ng-init="load_articles()" class="container">
-    <div class="row">
-        <div class="hanja-level"> Title</div>
-        <div class="hanja-level" ng-repeat = "(index, val) in hanja_levels"> {{ val }} </div>
-    </div>
-    <div ng-repeat = "(index, val) in articles">
-        <div class="hanja-level"> <a href="">{{ val['source'] }}</a></div>
-        {{ val }}
-        <div class="hanja-level" ng-repeat = "(index_2, level) in hanja_levels"> {{ val['hanja_count'][level]['count'] }} </div>
-    </div>
+    <table class="table table-bordered table-condensed table-hover">
+        <thead>
+            <tr>
+                <th> Title</th>
+                <th ng-repeat = "(index, val) in hanja_levels"> {{ val }} </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat = "(index, val) in articles">
+                <td> <a href="hanja#/articles/{{  val['article_id'] }}">{{ val['title'] }}</a></td>
+                <td ng-repeat = "(index_2, level) in hanja_levels"> {{ val['hanja_count'][level]['count'] }} </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

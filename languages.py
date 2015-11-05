@@ -72,6 +72,11 @@ def get_all_articles_route():
 	from hanja.hanja_to_mongo import get_all_articles
 	return JSONEncoder().encode(get_all_articles())
 
+@app.route('/api/v1.0/korean/hanja/article/articleID/<string:id>', methods=['GET'])
+def get_article_by_article_id_route(id):
+	from hanja.hanja_to_mongo import get_article_by_article_id
+	return JSONEncoder().encode(get_article_by_article_id(id))
+
 @app.route('/api/v1.0/korean/naver/def/eng/<string:word>', methods=['GET'])
 def get_definition_english(word):
 	root = get_definition(word)

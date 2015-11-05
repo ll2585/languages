@@ -24,7 +24,7 @@
         <p>Hello!</p>
         <button ng-show="cards != null" ng-repeat="(key, value) in getRange()" ng-click="startSet(key)">START {{value}}  [{{ (key*1+1) }}]</button>
         <input type="file" file-reader="fileContent" action="loadCSV" />
-        Cards per set: <input type="text" ng-model="set_size" required>
+        Cards per set: <input type="number" ng-model="set_size" ng-focus="typing=true" ng-blur="typing=false" required>
         <button ng-show="cards != null" ng-click="startAll()">START ALL</button>
         <button ng-show="cards != null" ng-click="start()" ng-disabled="noCardsSelected()">START</button>
         <button ng-show="cards != null" ng-click="shuffleCards()">Shuffle Cards [s]</button>

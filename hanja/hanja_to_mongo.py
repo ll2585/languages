@@ -90,6 +90,11 @@ def get_article(id):
 	article_collection = db.articles
 	return article_collection.find_one({'_id': ObjectId(id)})
 
+def get_article_by_article_id(id):
+	article_collection = db.articles
+	print(id)
+	return article_collection.find_one({'article_id': id})
+
 def get_all_articles():
 	article_collection = db.articles
 	result = []

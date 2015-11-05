@@ -147,6 +147,7 @@ flashcardApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
     $scope.curCard = 0;
     $scope.showFront = true;
     $scope.nextCardButton = "NEXT CARD";
+    $scope.typing = false;
 
     $scope.openFile = function(){
         console.log("CLICKED")
@@ -162,8 +163,12 @@ flashcardApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
         $scope.data = contents.split(/\r?\n/);
         $scope.cards = [];
         for(var i = 0; i < $scope.data.length; i++){
-            $scope.cards.push($scope.data[i].split(/\t/));
-            $scope.cardsSelected.push(false);
+            var to_push = $scope.data[i].split(/\t/);
+            console.log(to_push);
+            if (to_push.length >= 2){
+                $scope.cards.push(to_push);
+                $scope.cardsSelected.push(false);
+            }
         }
         console.log($scope.cards);
     };
@@ -460,7 +465,7 @@ flashcardApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
                 }
             }
         } else{
-            if ($event.keyCode > 48 && $event.keyCode <58 ) { //("1 to 9");
+            if (($event.keyCode > 48) && ($event.keyCode <58) && (!$scope.typing) ) { //("1 to 9");
                 $scope.startSet($event.keyCode-49);
             }
             else if ($event.keyCode == 83) { //("s");
