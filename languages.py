@@ -231,6 +231,22 @@ def get_root_korean(word):
 		else: return None
 	return (term, definition)
 
+def get_hanja(word):
+	u2 = urllib.parse.quote(word)
+	url = 'http://hanja.naver.com/word?q=%s' %(u2)
+	print(url)
+	page=urlopen(url)
+
+	soup = BeautifulSoup(page.read())
+	#check if this is a 1 pager
+	div = soup.find(class_='t_w')
+
+	if div:
+		sound = div.strong.contents[0]
+		defs = soup.find(class_='entry_txt').p.get_text().strip().replace('\u3000', ' ')
+		return {'sound': sound, 'definition': defs}
+	return None
+
 
 if __name__ == '__main__':
 	app.run(host='0.0.0.0',port=9090)

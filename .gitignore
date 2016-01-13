@@ -110,3 +110,5 @@ target/
 
 
 languagesvirtualenv/
+forvo/*
+!forvo/.keep
