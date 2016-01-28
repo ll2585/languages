@@ -162,10 +162,17 @@ flashcardApp.controller('MainCtrl', ['$scope', '$http', function($scope, $http){
         $scope.fileContents = contents;
         $scope.data = contents.split(/\r?\n/);
         $scope.cards = [];
+        var delimiter = /\t/;
         for(var i = 0; i < $scope.data.length; i++){
-            var to_push = $scope.data[i].split(/\t/);
+            var to_push = $scope.data[i].split(delimiter);
+            if(to_push.length < 2){
+                to_push = $scope.data[i].split(",");
+            }
             console.log(to_push);
             if (to_push.length >= 2){
+                if(to_push.length > 2){
+                    to_push = $scope.data[i].split(/,(.+)?/);
+                }
                 $scope.cards.push(to_push);
                 $scope.cardsSelected.push(false);
             }

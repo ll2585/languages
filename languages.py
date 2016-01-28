@@ -245,8 +245,37 @@ def get_hanja(word):
 		sound = div.strong.contents[0]
 		defs = soup.find(class_='entry_txt').p.get_text().strip().replace('\u3000', ' ')
 		return {'sound': sound, 'definition': defs}
+	else:
+		return get_hanja_daum(word)
+
+
+def get_hanja_daum(word):
+	u2 = urllib.parse.quote(word)
+	url = 'http://alldic.daum.net/search.do?q=%s&dic=hanja' %(u2)
+	print(url)
+	page=urlopen(url)
+
+	soup = BeautifulSoup(page.read())
+	#check if this is a 1 pager
+	div = soup.find_all(class_='han_sch')
+
+	if len(div)>0:
+		for d in div:
+			possible_div = d.find(class_='link_txt')
+			for tag in possible_div.find(class_="num_word"):
+				tag.extract()
+			print(possible_div)
+			if d.find(class_='link_txt').text == word:
+				sound = d.find(class_='trans_kor').text.replace('[','').replace(']','')
+				defs = d.find_all(class_='trans_words')
+				defs_joined = [the_text.text for the_text in defs]
+				defs =' '.join(defs_joined)
+				return {'sound': sound, 'definition': defs}
+		#sound = div.strong.contents[0]
+		#defs = soup.find(class_='entry_txt').p.get_text().strip().replace('\u3000', ' ')
+		#return {'sound': sound, 'definition': defs}
 	return None
 
-
 if __name__ == '__main__':
-	app.run(host='0.0.0.0',port=9090)
+	#app.run(host='0.0.0.0',port=9090)
+	print(get_hanja_daum('合金'))
