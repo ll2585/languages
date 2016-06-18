@@ -121,7 +121,7 @@ def get_definition(word):
 				div = link
 				found = True
 				break
-	if not div:
+	if not div or not div.strong:
 		return None
 	#else get the one that has stuff eg http://endic.naver.com/krenEntry.nhn?sLn=en&entryId=ee70e407172a440daef84629e6e8df8a&query=%EA%B7%B8
 	term = div.strong.contents
@@ -262,9 +262,10 @@ def get_hanja_daum(word):
 	if len(div)>0:
 		for d in div:
 			possible_div = d.find(class_='link_txt')
-			for tag in possible_div.find(class_="num_word"):
-				tag.extract()
-			print(possible_div)
+			if possible_div.find(class_="num_word"):
+				for tag in possible_div.find(class_="num_word"):
+					tag.extract()
+				print(possible_div)
 			if d.find(class_='link_txt').text == word:
 				sound = d.find(class_='trans_kor').text.replace('[','').replace(']','')
 				defs = d.find_all(class_='trans_words')
@@ -277,5 +278,5 @@ def get_hanja_daum(word):
 	return None
 
 if __name__ == '__main__':
-	#app.run(host='0.0.0.0',port=9090)
-	print(get_hanja_daum('合金'))
+	app.run(host='0.0.0.0',port=9090)
+	#print(get_hanja_daum('合金'))

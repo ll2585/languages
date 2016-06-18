@@ -22,7 +22,7 @@ for word in all_lines:
 	else:
 		this_word.append(word.strip())
 		this_word.append("MANUALLY DO")
-	if get_root_korean:
+	if korean_def:
 		this_word.append(korean_def[1])
 	defs.append('\t'.join(list(this_word)))
 print('\n'.join(defs))
