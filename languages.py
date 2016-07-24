@@ -88,7 +88,7 @@ def get_definition(word):
 	print(url)
 	page=urlopen(url)
 
-	soup = BeautifulSoup(page.read())
+	soup = BeautifulSoup(page.read(), "html.parser")
 	#check if this is a 1 pager
 	div = soup.find(class_='fnt_k18')
 	if div:
@@ -137,7 +137,7 @@ def get_root(word):
 	print(url)
 	page=urlopen(url)
 
-	soup = BeautifulSoup(page.read())
+	soup = BeautifulSoup(page.read(), "html.parser")
 	#check if this is a 1 pager
 	div = soup.find(class_='fnt_k18')
 	if div:
@@ -184,7 +184,7 @@ def get_root_korean(word):
 	print(url)
 	page=urlopen(url)
 
-	soup = BeautifulSoup(page.read())
+	soup = BeautifulSoup(page.read(), "html.parser")
 	#check if this is a 1 pager
 	div = soup.find(class_='fnt_k18')
 	if div:
