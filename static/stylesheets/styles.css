@@ -1,0 +1,35 @@
+@charset "UTF-8";
+.testing {
+  width: 14.28571%; }
+
+body {
+  background-color: white; }
+
+.字 {
+  font-size: 4em;
+  text-align: center; }
+
+.音, .訓 {
+  text-align: center; }
+
+.char {
+  outline-color: black;
+  outline-style: solid; }
+
+.selected-page {
+  color: black;
+  text-decoration: none;
+  font-style: italic; }
+
+.fake-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer; }
+
+.hanja-pages {
+  padding-right: 40px;
+  border-bottom: 30px; }
+
+.hanja-level {
+  display: inline;
+  padding-right: 10px; }
