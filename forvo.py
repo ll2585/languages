@@ -10,7 +10,7 @@ is_korean = False
 for query in words:
 	try:
 		page = urllib.request.urlopen(url.format(urllib.parse.quote(query)))
-		soup = BeautifulSoup(page.read())
+		soup = BeautifulSoup(page.read(), "lxml")
 		##check for chinese
 		if is_mandarin and soup.find_all('em', {'id': 'zh'}):
 			soup = soup.find('em', {'id': 'zh'}).parent.parent

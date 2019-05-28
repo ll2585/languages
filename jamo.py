@@ -39,7 +39,9 @@ def get_jamo(hangul):
 	medial = math.floor(value/28)
 	value = value - medial*28
 	final = value
-	return (reverse_hangul_dict['initial'][initial],reverse_hangul_dict['medial'][medial],reverse_hangul_dict['final'][final])
+	result = reverse_hangul_dict['initial'][initial],reverse_hangul_dict['medial'][medial],reverse_hangul_dict['final'][final]
+	if result == 'ᄀ': result = 'ㄱ'
+	return result
 
 reverse_hangul_dict = {
 	'initial': {},
@@ -49,7 +51,9 @@ reverse_hangul_dict = {
 for k in reverse_hangul_dict:
 	reverse_hangul_dict[k] = {v: k for k, v in hangul_dict[k].items()}
 
-number = get_hangul('ㄸ','ㅏ','')
-hangul = '자'
-print(get_jamo(hangul))
-print(chr(number))
+#### TESTING
+# number = get_hangul('ㄸ','ㅏ','')
+# hangul = '자'
+# print(get_jamo(hangul))
+# print(chr(number))
+# print(get_jamo(hangul[0])[0])
