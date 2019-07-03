@@ -40,7 +40,6 @@ def get_jamo(hangul):
 	value = value - medial*28
 	final = value
 	result = reverse_hangul_dict['initial'][initial],reverse_hangul_dict['medial'][medial],reverse_hangul_dict['final'][final]
-	if result == 'ᄀ': result = 'ㄱ'
 	return result
 
 reverse_hangul_dict = {

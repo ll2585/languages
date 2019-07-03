@@ -130,7 +130,7 @@ def get_definition(word):
     return (term, definition, hanja)
 
 
-def get_definition_krdict(word):
+def get_definition_krdict(word, download_audio = False, audio_destination = None):
     u2 = urllib.parse.quote(word)
     url = 'https://krdict.korean.go.kr/eng/dicSearch/search?nation=eng&nationCode=6&ParaWordNo=&mainSearchWord={0}'\
           .format(u2)
@@ -147,10 +147,21 @@ def get_definition_krdict(word):
         eng_def = definition_results[0].text.replace('\n',' ').strip()
         krn_def = definition_results[1].text.strip()
         eng_translate_def = definition_results[2].text.strip()
-        return eng_def, krn_def, eng_translate_def
+        if download_audio is True and audio_destination is not None:
+            import re, os
+            audio_file = results.img
+            audio_link = audio_file['onclick'].split('\'')[1]
+            if not os.path.exists(audio_destination):
+                os.makedirs(audio_destination)
+            dest = '{0}/{1}.mp3'.format(audio_destination, term)
+            try:
+                urllib.request.urlretrieve(audio_link, dest)
+            except (urllib.error.HTTPError, urllib.error.ContentTooShortError) as e:
+                print("no mp3 for {0}".format(dest))
+        return eng_def, krn_def, eng_translate_def, term
     else:
         print("WORD NOT FOUND")
-        return None, None, None
+        return None, None, None, None
 
 
 def get_root(word):
